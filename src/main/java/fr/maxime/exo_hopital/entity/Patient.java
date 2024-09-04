@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @Entity
@@ -23,6 +25,9 @@ public class Patient {
 
     @Column(name = "lien_image", nullable = false)
     private String lienImage;
+
+    @Column(name = "date_naissance", nullable = false)
+    private LocalDate dateNaissance;
 
     @Column(name = "nom__medecin", length = 50)
     private String nomMedecin;

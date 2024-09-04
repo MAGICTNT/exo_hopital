@@ -4,7 +4,7 @@
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <mapping class="entity.Chien"/>
+        <mapping class="fr.maxime.exo_hopital.entity.Patient"/>
 
     </session-factory>
 </hibernate-configuration>
