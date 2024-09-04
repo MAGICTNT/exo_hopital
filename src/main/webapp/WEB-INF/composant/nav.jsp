@@ -7,10 +7,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link "  href="">Accueil</a>
+                    <a class="nav-link "  href="${pageContext.request.contextPath}">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="patient">list des patient</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/patient">list des patient</a>
                 </li>
 
             </ul>
