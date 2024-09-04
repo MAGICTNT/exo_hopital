@@ -3,8 +3,9 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%
     String titre = (String) request.getAttribute("titre");
-    StatusCode statusCode = (StatusCode) request.getAttribute("statusCode");
     Patient patient = (Patient) request.getAttribute("patient");
+    Boolean isLogged =  request.getSession().getAttribute("isLogged") != null ? (Boolean) request.getSession().getAttribute("isLogged") : false;
+
 %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -22,34 +23,34 @@
     </form>
 </div>
 <div id="addPatient">
-    <form action="patient/add" method="post" enctype="multipart/form-data">
-        <div>
-            <label>Nom:</label>
-            <input type="text" id="nom" name="nom" >
-        </div>
-        <div>
-            <label>Téléphone:</label>
-            <input type="text" id="telephone" name="telephone" >
-        </div>
-        <div>
-            <label>Date de Naissance:</label>
-            <input type="date" id="dateNaissance" name="dateNaissance" >
-        </div>
-        <div>
-            <label>Date de Naissance:</label>
-            <input type="file" id="image" name="image" >
-        </div>
-        <button>valider</button>
-        <c:choose>
-            <c:when test="${statusCode.getCode() == 200}">
-                <p>${statusCode.getMessage()}</p>
-            </c:when>
-            <c:when test="${statusCode.getCode() == 500}">
-                <p>${statusCode.getMessage()}</p>
-            </c:when>
-        </c:choose>
-    </form>
 
+<c:choose>
+    <c:when test="${!isLogged}">
+        <p>Ben alors Elmer Fudd ? pas connecter docteur ?</p>
+    </c:when>
+    <c:otherwise>
+        <form action="patient/add" method="post" enctype="multipart/form-data">
+            <div>
+                <label>Nom:</label>
+                <input type="text" id="nom" name="nom" >
+            </div>
+            <div>
+                <label>Téléphone:</label>
+                <input type="text" id="telephone" name="telephone" >
+            </div>
+            <div>
+                <label>Date de Naissance:</label>
+                <input type="date" id="dateNaissance" name="dateNaissance" >
+            </div>
+            <div>
+                <label>Image avatar:</label>
+                <input type="file" name="image" >
+            </div>
+            <button>valider</button>
+
+        </form>
+    </c:otherwise>
+</c:choose>
 <%--  boucle for sur la liste  --%>
 </div>
 <c:import url="composant/footer.jsp"/>

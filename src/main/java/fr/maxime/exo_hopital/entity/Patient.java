@@ -27,6 +27,7 @@ public class Patient {
     private String lienImage;
 
     @Column(name = "date_naissance", nullable = false)
+    @Temporal(TemporalType.DATE)
     private LocalDate dateNaissance;
 
     @Column(name = "nom__medecin", length = 50)

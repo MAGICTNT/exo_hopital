@@ -4,6 +4,7 @@ import fr.maxime.exo_hopital.entity.Patient;
 import fr.maxime.exo_hopital.entity.StatusCode;
 import fr.maxime.exo_hopital.repository.PatientRepository;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,23 +16,21 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 @WebServlet(name = "rechercheservlet", value = "/patient/*")
+@MultipartConfig
 public class RechercheServlet extends HttpServlet {
     public String titre;
     public Patient patient;
-    public StatusCode statusCode;
     public PatientRepository patientRepository;
 
     public void init() {
         this.titre = "recherche";
         this.patient = new Patient();
-        this.statusCode = new StatusCode();
         patientRepository = new PatientRepository();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("titre", titre);
-        req.setAttribute("error", statusCode);
         req.setAttribute("patient", patient);
         req.getRequestDispatcher("/WEB-INF/recherche.jsp").forward(req, resp);
     }
@@ -47,24 +46,22 @@ public class RechercheServlet extends HttpServlet {
                 if (!file.exists()) {
                     file.mkdir();
                 }
+                System.out.println(req.getPart("image"));
                 Part image = req.getPart("image");
                 String fileName = image.getSubmittedFileName();
                 image.write(uploadPath + File.separator + fileName);
                 cheminImg = req.getContextPath() + "/image/" + fileName;
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.out.println("image: " + e.getMessage());
             }
             patient.setNom(req.getParameter("nom"));
             patient.setNumeroTelephone(req.getParameter("telephone"));
             patient.setLienImage(cheminImg);
             patient.setDateNaissance(LocalDate.parse(req.getParameter("dateNaissance")));
+            System.out.println(patient);
             patientRepository.createOrUpdate(patient);
-            statusCode.setCode(200);
-            statusCode.setMessage("patient ajouter");
             doGet(req, resp);
         } catch (Exception e) {
-            statusCode.setCode(500);
-            statusCode.setMessage("erreur durant lajout");
             doGet(req, resp);
             System.out.println(e.getMessage());
         }
