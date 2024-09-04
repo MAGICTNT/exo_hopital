@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 @WebServlet(name = "rechercheservlet", value = "/patient/*")
-@MultipartConfig
+@MultipartConfig(maxFileSize = 1024 * 1024 * 10 )
 public class RechercheServlet extends HttpServlet {
     public String titre;
     public Patient patient;
